@@ -1,4 +1,3 @@
-
 name: Java CI with Gradle
 
 on:
@@ -10,9 +9,7 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Up container
@@ -22,8 +19,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      - name: Run Test
+        run: ./gradlew test
+      - name: upload artifact test content
+        uses: actions/upload-artifact@v3
+        if: always()
         with:
-          arguments: test
-
+          name: test content
+          path: build/reports/
